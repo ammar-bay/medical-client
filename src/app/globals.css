@@ -1,26 +1,148 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: oklch(0.985 0.005 90);
+  --bg-soft: oklch(0.965 0.008 90);
+  --bg-card: oklch(1 0 0);
+  --ink: oklch(0.22 0.015 240);
+  --ink-2: oklch(0.42 0.015 240);
+  --ink-3: oklch(0.62 0.012 240);
+  --rule: oklch(0.90 0.008 240);
+  --rule-2: oklch(0.94 0.006 240);
+
+  --teal: oklch(0.45 0.12 30);
+  --teal-deep: oklch(0.34 0.10 28);
+  --teal-soft: oklch(0.90 0.04 35);
+  --teal-tint: oklch(0.96 0.018 40);
+  --teal-hover: oklch(0.40 0.13 30);
+  --sage: oklch(0.62 0.05 180);
+  --gold: oklch(0.72 0.09 75);
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+
+  --shadow-sm: 0 1px 2px rgba(20,40,60,0.04), 0 1px 1px rgba(20,40,60,0.03);
+  --shadow-md: 0 4px 14px rgba(20,40,60,0.06), 0 1px 3px rgba(20,40,60,0.04);
+  --shadow-lg: 0 14px 40px rgba(20,40,60,0.10), 0 2px 6px rgba(20,40,60,0.04);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.serif { font-family: var(--font-newsreader), "Source Serif 4", Georgia, serif !important; }
+.mono  { font-family: var(--font-jetbrains), ui-monospace, monospace !important; }
+
+[dir="rtl"] body,
+[dir="rtl"] {
+  font-family: var(--font-noto-arabic), "Noto Naskh Arabic", system-ui, sans-serif;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+button { font: inherit; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+h1, h2, h3 {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin: 0;
 }
+
+.serif { font-feature-settings: "ss01"; }
+.eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  transition: all 160ms ease;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--teal); color: white; }
+.btn-primary:hover {
+  background: var(--teal-hover);
+  box-shadow: 0 4px 12px color-mix(in oklch, var(--teal) 30%, transparent);
+}
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn-ghost:hover { background: var(--teal-tint); border-color: var(--teal); color: var(--teal-deep); }
+.btn-soft { background: var(--teal-tint); color: var(--teal-deep); }
+.btn-soft:hover { background: var(--teal-soft); color: var(--teal-deep); }
+.btn-sm { padding: 8px 14px; font-size: 13px; }
+.btn-lg { padding: 14px 26px; font-size: 15px; }
+
+.field {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  background: var(--bg-card);
+  color: var(--ink);
+  font: inherit;
+  outline: none;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.field:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--teal) 15%, transparent);
+}
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-2);
+  border-radius: var(--r-lg);
+}
+
+.navlink {
+  transition: color 160ms;
+  position: relative;
+}
+.navlink:hover { color: var(--teal); }
+.navlink::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 1px;
+  background: var(--teal);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms;
+}
+.navlink:hover::after { transform: scaleX(1); }
+
+[dir="rtl"] .eyebrow { letter-spacing: 0; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
