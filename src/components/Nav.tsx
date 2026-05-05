@@ -13,74 +13,36 @@ export default function Nav({ lang, setLang, onBook }: NavProps) {
   const dir = lang === "ur" ? "rtl" : "ltr";
 
   return (
-    <header
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 30,
-        backdropFilter: "saturate(180%) blur(8px)",
-        background: "color-mix(in oklch, var(--bg) 80%, transparent)",
-        borderBottom: "1px solid var(--rule-2)",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: "16px 28px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 24,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ color: "var(--teal)" }}>
-            <LogoIcon size={26} />
-          </span>
-          <div style={{ lineHeight: 1.1 }}>
-            <div className="serif" style={{ fontSize: 17, fontWeight: 500 }}>
-              {t("hero_name")}
-            </div>
-            <div style={{ fontSize: 11, color: "var(--ink-3)", letterSpacing: "0.04em" }}>
+    <header className="sticky top-0 z-30 backdrop-saturate-180 backdrop-blur-sm border-b border-(--rule-2) bg-(--nav-bg)">
+      <div className="max-w-300 mx-auto px-5 md:px-7 py-4 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <span className="text-(--teal) shrink-0"><LogoIcon size={26} /></span>
+          <div className="leading-[1.1] min-w-0">
+            <div className="serif text-[17px] font-medium truncate">{t("hero_name")}</div>
+            <div className="text-xs text-(--ink-3) tracking-[0.04em] hidden sm:block">
               {lang === "ur" ? "نیفرولوجسٹ" : "Nephrologist · Lahore"}
             </div>
           </div>
         </div>
 
-        <nav
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 28,
-            fontSize: 14,
-            color: "var(--ink-2)",
-          }}
-        >
+        <nav className="hidden lg:flex items-center gap-7 text-sm text-(--ink-2)">
           <a href="#about" className="navlink">{t("nav_about")}</a>
           <a href="#services" className="navlink">{t("nav_services")}</a>
           <a href="#locations" className="navlink">{t("nav_locations")}</a>
           <a href="#faq" className="navlink">{t("nav_faq")}</a>
         </nav>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => setLang(lang === "en" ? "ur" : "en")}
-            style={{
-              fontSize: 12,
-              fontWeight: 500,
-              padding: "6px 10px",
-              border: "1px solid var(--rule)",
-              borderRadius: 999,
-              background: "transparent",
-              color: "var(--ink-2)",
-              fontFamily: "var(--mono)",
-            }}
+            className="text-xs font-medium px-2.5 py-1.5 border border-(--rule) rounded-full bg-transparent text-(--ink-2) cursor-pointer"
           >
             {lang === "en" ? "اردو" : "EN"}
           </button>
           <button className="btn btn-primary btn-sm" onClick={onBook}>
-            {t("nav_book")} <ArrowIcon size={14} dir={dir === "rtl" ? "left" : "right"} />
+            <span className="hidden sm:inline">{t("nav_book")}</span>
+            <span className="sm:hidden">{lang === "ur" ? "بک" : "Book"}</span>
+            <ArrowIcon size={14} dir={dir === "rtl" ? "left" : "right"} />
           </button>
         </div>
       </div>

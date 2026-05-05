@@ -50,13 +50,7 @@ export default function BookingModal({ lang, initialHospital, onClose }: Booking
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ""}/api/appointments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          hospital,
-          visitType,
-          date: date?.toISOString(),
-          time,
-          ...details,
-        }),
+        body: JSON.stringify({ hospital, visitType, date: date?.toISOString(), time, ...details }),
       });
       if (res.ok) {
         const data = await res.json();
@@ -74,60 +68,21 @@ export default function BookingModal({ lang, initialHospital, onClose }: Booking
   return (
     <div
       dir={dir}
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 100,
-        background: "color-mix(in oklch, oklch(0.18 0.02 240) 60%, transparent)",
-        backdropFilter: "blur(6px)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 24,
-      }}
+      className="fixed inset-0 z-100 flex items-end sm:items-center justify-center sm:p-6 bg-(--modal-overlay) backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div
-        style={{
-          background: "var(--bg)",
-          width: "100%",
-          maxWidth: 880,
-          maxHeight: "92vh",
-          borderRadius: 8,
-          boxShadow: "var(--shadow-lg)",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          border: "1px solid var(--rule-2)",
-        }}
+      <div className="bg-(--bg) w-full sm:max-w-220 max-h-[95vh] sm:max-h-[92vh] rounded-t-2xl sm:rounded-lg flex flex-col border border-(--rule-2) overflow-hidden"
+        style={{ boxShadow: "var(--shadow-lg)" }}
       >
         {/* Header */}
-        <div
-          style={{
-            padding: "20px 28px",
-            borderBottom: "1px solid var(--rule-2)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
+        <div className="px-5 md:px-7 py-5 border-b border-(--rule-2) flex items-center justify-between shrink-0">
           <div>
-            <div className="serif" style={{ fontSize: 22, lineHeight: 1.1 }}>{t("book_title")}</div>
-            <div style={{ fontSize: 12, color: "var(--ink-3)", marginTop: 4 }}>{t("book_subtitle")}</div>
+            <div className="serif text-[22px] leading-[1.1]">{t("book_title")}</div>
+            <div className="text-xs text-(--ink-3) mt-1">{t("book_subtitle")}</div>
           </div>
           <button
             onClick={onClose}
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: "50%",
-              border: "1px solid var(--rule)",
-              background: "transparent",
-              color: "var(--ink-2)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            className="w-8 h-8 rounded-full border border-(--rule) bg-transparent text-(--ink-2) flex items-center justify-center shrink-0"
           >
             <XIcon size={14} />
           </button>
@@ -135,59 +90,27 @@ export default function BookingModal({ lang, initialHospital, onClose }: Booking
 
         {/* Stepper */}
         {step < 3 && (
-          <div
-            style={{
-              padding: "16px 28px",
-              borderBottom: "1px solid var(--rule-2)",
-              background: "var(--bg-soft)",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div className="px-5 md:px-7 py-4 border-b border-(--rule-2) bg-(--bg-soft) shrink-0">
+            <div className="flex items-center gap-2">
               {steps.map((label, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    flex: i < steps.length - 1 ? 1 : "none",
-                  }}
-                >
+                <div key={i} className={`flex items-center gap-2 ${i < steps.length - 1 ? "flex-1" : ""}`}>
                   <div
+                    className="w-6.5 h-6.5 rounded-full flex items-center justify-center text-xs font-medium shrink-0 mono"
                     style={{
-                      width: 26,
-                      height: 26,
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
                       background: i <= step ? "var(--teal)" : "var(--bg-card)",
                       color: i <= step ? "white" : "var(--ink-3)",
                       border: i <= step ? "none" : "1px solid var(--rule)",
-                      fontSize: 12,
-                      fontWeight: 500,
-                      fontFamily: "var(--mono)",
-                      flexShrink: 0,
                     }}
                   >
                     {i < step ? <CheckIcon size={12} /> : i + 1}
                   </div>
-                  <div
-                    style={{
-                      fontSize: 12,
-                      fontWeight: i === step ? 500 : 400,
-                      color: i <= step ? "var(--ink)" : "var(--ink-3)",
-                    }}
-                  >
+                  <div className={`text-xs hidden sm:block ${i === step ? "font-medium text-(--ink)" : "text-(--ink-3)"}`}>
                     {label}
                   </div>
                   {i < steps.length - 1 && (
                     <div
-                      style={{
-                        flex: 1,
-                        height: 1,
-                        background: i < step ? "var(--teal)" : "var(--rule)",
-                      }}
+                      className="flex-1 h-px"
+                      style={{ background: i < step ? "var(--teal)" : "var(--rule)" }}
                     />
                   )}
                 </div>
@@ -197,58 +120,24 @@ export default function BookingModal({ lang, initialHospital, onClose }: Booking
         )}
 
         {/* Body */}
-        <div className="no-scrollbar" style={{ flex: 1, overflowY: "auto", padding: 28 }}>
+        <div className="no-scrollbar flex-1 overflow-y-auto p-5 md:p-7">
           {step === 0 && (
-            <StepHospital
-              t={t}
-              lang={lang}
-              hospital={hospital}
-              setHospital={setHospital}
-              visitType={visitType}
-              setVisitType={setVisitType}
-            />
+            <StepHospital t={t} lang={lang} hospital={hospital} setHospital={setHospital} visitType={visitType} setVisitType={setVisitType} />
           )}
           {step === 1 && (
-            <StepDateTime
-              t={t}
-              lang={lang}
-              hospital={hospital}
-              date={date}
-              setDate={setDate}
-              time={time}
-              setTime={setTime}
-            />
+            <StepDateTime t={t} lang={lang} hospital={hospital} date={date} setDate={setDate} time={time} setTime={setTime} />
           )}
           {step === 2 && (
             <StepDetails t={t} details={details} setDetails={setDetails} />
           )}
           {step === 3 && (
-            <StepConfirm
-              t={t}
-              lang={lang}
-              bookingId={bookingId}
-              hospital={hospital}
-              date={date}
-              time={time}
-              details={details}
-              visitType={visitType}
-              onClose={onClose}
-            />
+            <StepConfirm t={t} lang={lang} bookingId={bookingId} hospital={hospital} date={date} time={time} details={details} visitType={visitType} onClose={onClose} />
           )}
         </div>
 
         {/* Footer */}
         {step < 3 && (
-          <div
-            style={{
-              padding: "16px 28px",
-              borderTop: "1px solid var(--rule-2)",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: 12,
-            }}
-          >
+          <div className="px-5 md:px-7 py-4 border-t border-(--rule-2) flex justify-between items-center gap-3 shrink-0">
             <button className="btn btn-ghost btn-sm" onClick={step === 0 ? onClose : back}>
               {step === 0 ? (lang === "ur" ? "منسوخ" : "Cancel") : t("book_back")}
             </button>
@@ -260,9 +149,7 @@ export default function BookingModal({ lang, initialHospital, onClose }: Booking
             >
               {submitting
                 ? (lang === "ur" ? "انتظار..." : "Please wait…")
-                : step === 2
-                  ? t("book_confirm_btn")
-                  : t("book_continue")}
+                : step === 2 ? t("book_confirm_btn") : t("book_continue")}
               {!submitting && <ArrowIcon size={14} dir={dir === "rtl" ? "left" : "right"} />}
             </button>
           </div>
@@ -273,9 +160,7 @@ export default function BookingModal({ lang, initialHospital, onClose }: Booking
 }
 
 // ── Step 1: Hospital ──────────────────────────────────────────────────────────
-function StepHospital({
-  t, lang, hospital, setHospital, visitType, setVisitType,
-}: {
+function StepHospital({ t, lang, hospital, setHospital, visitType, setVisitType }: {
   t: ReturnType<typeof useT>;
   lang: Lang;
   hospital: HospitalId | null;
@@ -285,36 +170,29 @@ function StepHospital({
 }) {
   return (
     <div>
-      <div style={{ fontSize: 14, fontWeight: 500, marginBottom: 16 }}>{t("book_choose_hospital")}</div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+      <div className="text-sm font-medium mb-4">{t("book_choose_hospital")}</div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         {HOSPITALS.map((h) => {
           const sel = hospital === h.id;
           return (
             <button
               key={h.id}
               onClick={() => setHospital(h.id)}
+              className="text-start flex flex-col gap-2 rounded-lg transition-all duration-120"
               style={{
                 border: sel ? "2px solid var(--teal)" : "1px solid var(--rule)",
                 padding: sel ? 19 : 20,
                 background: sel ? "var(--teal-tint)" : "var(--bg-card)",
-                borderRadius: 8,
-                textAlign: "start",
-                display: "flex",
-                flexDirection: "column",
-                gap: 8,
-                transition: "all 120ms",
               }}
             >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
-                <div className="serif" style={{ fontSize: 18 }}>
-                  {lang === "ur" ? h.name_ur : h.name_en}
-                </div>
-                {sel && <span style={{ color: "var(--teal)" }}><CheckIcon size={18} /></span>}
+              <div className="flex justify-between items-start">
+                <div className="serif text-lg">{lang === "ur" ? h.name_ur : h.name_en}</div>
+                {sel && <span className="text-(--teal)"><CheckIcon size={18} /></span>}
               </div>
-              <div style={{ fontSize: 12, color: "var(--ink-3)", display: "flex", alignItems: "center", gap: 6 }}>
+              <div className="text-xs text-(--ink-3) flex items-center gap-1.5">
                 <PinIcon size={12} /> {lang === "ur" ? h.area_ur : h.area_en}
               </div>
-              <div style={{ fontSize: 12, color: "var(--ink-3)", display: "flex", alignItems: "center", gap: 6 }}>
+              <div className="text-xs text-(--ink-3) flex items-center gap-1.5">
                 <ClockIcon size={12} /> {lang === "ur" ? h.time_ur : h.time_en}
               </div>
             </button>
@@ -322,8 +200,8 @@ function StepHospital({
         })}
       </div>
 
-      <div style={{ fontSize: 14, fontWeight: 500, marginTop: 32, marginBottom: 12 }}>{t("book_first_visit")}</div>
-      <div style={{ display: "flex", gap: 10 }}>
+      <div className="text-sm font-medium mt-8 mb-3">{t("book_first_visit")}</div>
+      <div className="flex gap-2.5 flex-wrap">
         {(["first", "followup"] as const).map((v) => {
           const sel = visitType === v;
           return (
@@ -335,7 +213,6 @@ function StepHospital({
                 border: sel ? "1px solid var(--teal)" : "1px solid var(--rule)",
                 background: sel ? "var(--teal-tint)" : "var(--bg-card)",
                 color: sel ? "var(--teal-deep)" : "var(--ink-2)",
-                padding: "10px 18px",
               }}
             >
               {v === "first" ? t("book_first") : t("book_followup")}
@@ -348,9 +225,7 @@ function StepHospital({
 }
 
 // ── Step 2: Date & Time ───────────────────────────────────────────────────────
-function StepDateTime({
-  t, lang, hospital, date, setDate, time, setTime,
-}: {
+function StepDateTime({ t, lang, hospital, date, setDate, time, setTime }: {
   t: ReturnType<typeof useT>;
   lang: Lang;
   hospital: HospitalId | null;
@@ -381,45 +256,36 @@ function StepDateTime({
     cells.push(new Date(monthStart.getFullYear(), monthStart.getMonth(), d));
   }
 
-  const slots = hospitalData
-    ? { ...hospitalData.slots }
-    : { morning: [], afternoon: [], evening: [] };
+  const slots = hospitalData ? { ...hospitalData.slots } : { morning: [], afternoon: [], evening: [] };
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* Calendar */}
       <div>
-        <div style={{ fontSize: 14, fontWeight: 500, marginBottom: 16 }}>{t("book_choose_date")}</div>
-        <div style={{ border: "1px solid var(--rule)", borderRadius: 8, padding: 16, background: "var(--bg-card)" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+        <div className="text-sm font-medium mb-4">{t("book_choose_date")}</div>
+        <div className="border border-(--rule) rounded-lg p-4 bg-(--bg-card)">
+          <div className="flex justify-between items-center mb-3">
             <button
               onClick={() => setMonthOffset((o) => Math.max(0, o - 1))}
               disabled={monthOffset === 0}
-              style={{
-                width: 28, height: 28, border: "1px solid var(--rule)", background: "transparent",
-                borderRadius: 6, opacity: monthOffset === 0 ? 0.4 : 1,
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}
+              className="w-7 h-7 border border-(--rule) bg-transparent rounded flex items-center justify-center disabled:opacity-40"
             >
               <ArrowIcon size={12} dir="left" />
             </button>
-            <div style={{ fontSize: 14, fontWeight: 500 }}>{monthName}</div>
+            <div className="text-sm font-medium">{monthName}</div>
             <button
               onClick={() => setMonthOffset((o) => o + 1)}
-              style={{
-                width: 28, height: 28, border: "1px solid var(--rule)", background: "transparent",
-                borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center",
-              }}
+              className="w-7 h-7 border border-(--rule) bg-transparent rounded flex items-center justify-center"
             >
               <ArrowIcon size={12} />
             </button>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 4, fontSize: 11, color: "var(--ink-3)", textAlign: "center", marginBottom: 6 }}>
+          <div className="grid grid-cols-7 gap-1 text-xs text-(--ink-3) text-center mb-1.5">
             {dayLabels.map((d) => <div key={d}>{d}</div>)}
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 4 }}>
+          <div className="grid grid-cols-7 gap-1">
             {cells.map((d, i) => {
               if (!d) return <div key={i} />;
               const isPast = d < today;
@@ -430,33 +296,18 @@ function StepDateTime({
                   key={i}
                   disabled={!isAvail}
                   onClick={() => setDate(d)}
+                  className="aspect-square border-none rounded text-[13px] relative"
                   style={{
-                    aspectRatio: "1",
-                    border: "none",
-                    borderRadius: 6,
                     background: isSel ? "var(--teal)" : "transparent",
                     color: isSel ? "white" : isAvail ? "var(--ink)" : "var(--ink-3)",
-                    fontSize: 13,
                     fontWeight: isSel ? 500 : 400,
                     opacity: isAvail ? 1 : 0.3,
                     cursor: isAvail ? "pointer" : "not-allowed",
-                    position: "relative",
                   }}
                 >
                   {d.getDate()}
                   {isAvail && !isSel && (
-                    <span
-                      style={{
-                        position: "absolute",
-                        bottom: 4,
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: 4,
-                        height: 4,
-                        borderRadius: 2,
-                        background: "var(--teal)",
-                      }}
-                    />
+                    <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-(--teal)" />
                   )}
                 </button>
               );
@@ -467,34 +318,31 @@ function StepDateTime({
 
       {/* Time slots */}
       <div>
-        <div style={{ fontSize: 14, fontWeight: 500, marginBottom: 16 }}>{t("book_choose_time")}</div>
+        <div className="text-sm font-medium mb-4">{t("book_choose_time")}</div>
         {!date ? (
-          <div style={{ padding: 24, fontSize: 13, color: "var(--ink-3)", border: "1px dashed var(--rule)", borderRadius: 8, textAlign: "center" }}>
+          <div className="p-6 text-[13px] text-(--ink-3) border border-dashed border-(--rule) rounded-lg text-center">
             {lang === "ur" ? "پہلے تاریخ منتخب کریں" : "Select a date first"}
           </div>
         ) : (
-          <div style={{ display: "grid", gap: 16 }}>
+          <div className="grid gap-4">
             {(["morning", "afternoon", "evening"] as const).map((period) => {
               const periodSlots = slots[period] as readonly string[];
               if (periodSlots.length === 0) return null;
               return (
                 <div key={period}>
-                  <div style={{ fontSize: 11, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>
+                  <div className="text-xs text-(--ink-3) uppercase tracking-widest mb-2">
                     {t(`book_${period}` as Parameters<typeof t>[0])}
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6 }}>
+                  <div className="grid grid-cols-3 gap-1.5">
                     {periodSlots.map((s) => (
                       <button
                         key={s}
                         onClick={() => setTime(s)}
+                        className="py-2.5 px-1.5 text-xs rounded mono"
                         style={{
-                          padding: "9px 6px",
-                          fontSize: 12,
                           border: time === s ? "1px solid var(--teal)" : "1px solid var(--rule)",
                           background: time === s ? "var(--teal-tint)" : "var(--bg-card)",
                           color: time === s ? "var(--teal-deep)" : "var(--ink-2)",
-                          borderRadius: 6,
-                          fontFamily: "var(--mono)",
                         }}
                       >
                         {s}
@@ -512,17 +360,15 @@ function StepDateTime({
 }
 
 // ── Step 3: Details ───────────────────────────────────────────────────────────
-function StepDetails({
-  t, details, setDetails,
-}: {
+function StepDetails({ t, details, setDetails }: {
   t: ReturnType<typeof useT>;
   details: Details;
   setDetails: React.Dispatch<React.SetStateAction<Details>>;
 }) {
   const set = (k: keyof Details, v: string) => setDetails((d) => ({ ...d, [k]: v }));
   return (
-    <div style={{ display: "grid", gap: 18, maxWidth: 620 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+    <div className="grid gap-4.5 max-w-155">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         <div>
           <label className="field-label">{t("book_full_name")} *</label>
           <input className="field" value={details.name} onChange={(e) => set("name", e.target.value)} placeholder="—" />
@@ -532,7 +378,7 @@ function StepDetails({
           <input className="field" value={details.phone} onChange={(e) => set("phone", e.target.value)} placeholder="03xx xxxxxxx" inputMode="tel" />
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 100px 1fr", gap: 14 }}>
+      <div className="grid grid-cols-1 sm:grid-cols-[1fr_100px_1fr] gap-3.5">
         <div>
           <label className="field-label">{t("book_cnic")}</label>
           <input className="field" value={details.cnic} onChange={(e) => set("cnic", e.target.value)} placeholder="xxxxx-xxxxxxx-x" />
@@ -543,21 +389,17 @@ function StepDetails({
         </div>
         <div>
           <label className="field-label">{t("book_gender")} *</label>
-          <div style={{ display: "flex", gap: 6 }}>
+          <div className="flex gap-1.5">
             {(["male", "female", "other"] as const).map((v) => (
               <button
                 key={v}
                 onClick={() => set("gender", v)}
                 type="button"
+                className="flex-1 py-3 px-1 text-[13px] rounded-lg cursor-pointer"
                 style={{
-                  flex: 1,
-                  padding: "12px 4px",
-                  fontSize: 13,
                   border: details.gender === v ? "1px solid var(--teal)" : "1px solid var(--rule)",
                   background: details.gender === v ? "var(--teal-tint)" : "var(--bg-card)",
                   color: details.gender === v ? "var(--teal-deep)" : "var(--ink-2)",
-                  borderRadius: 10,
-                  cursor: "pointer",
                 }}
               >
                 {t(`book_${v}` as Parameters<typeof t>[0])}
@@ -582,9 +424,7 @@ function StepDetails({
 }
 
 // ── Step 4: Confirm ───────────────────────────────────────────────────────────
-function StepConfirm({
-  t, lang, bookingId, hospital, date, time, details, visitType, onClose,
-}: {
+function StepConfirm({ t, lang, bookingId, hospital, date, time, details, visitType, onClose }: {
   t: ReturnType<typeof useT>;
   lang: Lang;
   bookingId: string;
@@ -597,34 +437,24 @@ function StepConfirm({
 }) {
   const h = HOSPITALS.find((x) => x.id === hospital);
   return (
-    <div style={{ textAlign: "center", padding: "20px 0 30px", maxWidth: 520, margin: "0 auto" }}>
+    <div className="text-center py-5 max-w-130 mx-auto">
       <div
-        style={{
-          width: 64,
-          height: 64,
-          borderRadius: "50%",
-          background: "color-mix(in oklch, oklch(0.65 0.15 145) 18%, transparent)",
-          color: "oklch(0.5 0.13 145)",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 24,
-        }}
+        className="w-16 h-16 rounded-full inline-flex items-center justify-center mb-6"
+        style={{ background: "var(--confirm-check-bg)", color: "var(--confirm-check-text)" }}
       >
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="20,6 9,17 4,12" />
         </svg>
       </div>
-      <h3 className="serif" style={{ fontSize: 30, letterSpacing: "-0.02em" }}>{t("book_confirmed")}</h3>
-      <p style={{ fontSize: 14, color: "var(--ink-3)", marginTop: 12, marginBottom: 28, lineHeight: 1.55 }}>
-        {t("book_confirmed_sub")}
-      </p>
-      <div style={{ background: "var(--bg-soft)", border: "1px solid var(--rule-2)", borderRadius: 8, padding: 20, textAlign: "start" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", paddingBottom: 14, marginBottom: 14, borderBottom: "1px solid var(--rule-2)" }}>
-          <span style={{ fontSize: 12, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: "0.1em" }}>{t("book_booking_id")}</span>
-          <span className="mono" style={{ fontSize: 14, fontWeight: 500, color: "var(--teal-deep)" }}>{bookingId}</span>
+      <h3 className="serif text-[30px] tracking-[-0.02em]">{t("book_confirmed")}</h3>
+      <p className="text-sm text-(--ink-3) mt-3 mb-7 leading-[1.55]">{t("book_confirmed_sub")}</p>
+
+      <div className="bg-(--bg-soft) border border-(--rule-2) rounded-lg p-5 text-start">
+        <div className="flex justify-between pb-3.5 mb-3.5 border-b border-(--rule-2)">
+          <span className="text-xs text-(--ink-3) uppercase tracking-widest">{t("book_booking_id")}</span>
+          <span className="mono text-sm font-medium text-(--teal-deep)">{bookingId}</span>
         </div>
-        <div style={{ display: "grid", gap: 10, fontSize: 13 }}>
+        <div className="grid gap-2.5 text-[13px]">
           <ConfirmRow label={t("book_full_name")} value={details.name} />
           <ConfirmRow label={lang === "ur" ? "ہسپتال" : "Hospital"} value={h ? (lang === "ur" ? h.name_ur : h.name_en) : ""} />
           <ConfirmRow label={lang === "ur" ? "تاریخ" : "Date"} value={date ? formatDate(date, lang) : ""} />
@@ -632,7 +462,8 @@ function StepConfirm({
           <ConfirmRow label={t("book_first_visit")} value={visitType === "first" ? t("book_first") : t("book_followup")} />
         </div>
       </div>
-      <div style={{ marginTop: 24, display: "flex", gap: 10, justifyContent: "center" }}>
+
+      <div className="mt-6 flex gap-2.5 justify-center">
         <button className="btn btn-ghost btn-sm">{t("book_add_calendar")}</button>
         <button className="btn btn-primary btn-sm" onClick={onClose}>{t("book_done")}</button>
       </div>
@@ -642,9 +473,9 @@ function StepConfirm({
 
 function ConfirmRow({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
-      <span style={{ color: "var(--ink-3)" }}>{label}</span>
-      <span style={{ color: "var(--ink)", fontWeight: 500, textAlign: "end" }}>{value || "—"}</span>
+    <div className="flex justify-between gap-4">
+      <span className="text-(--ink-3)">{label}</span>
+      <span className="text-(--ink) font-medium text-end">{value || "—"}</span>
     </div>
   );
 }

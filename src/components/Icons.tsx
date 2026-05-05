@@ -107,6 +107,17 @@ export function LogoIcon({ size = 28 }: { size?: number }) {
   );
 }
 
+export function NeedleIcon({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="19" y1="5" x2="5" y2="19" />
+      <line x1="14" y1="5" x2="19" y2="10" />
+      <line x1="5" y1="14" x2="10" y2="19" />
+      <circle cx="7.5" cy="16.5" r="1.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 export function XIcon({ size = 14 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

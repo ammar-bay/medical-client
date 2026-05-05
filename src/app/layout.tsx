@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Newsreader, Inter, JetBrains_Mono, Noto_Naskh_Arabic } from "next/font/google";
 import "./globals.css";
 
@@ -26,6 +26,11 @@ const notoNaskhArabic = Noto_Naskh_Arabic({
   subsets: ["arabic"],
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Dr. Irfan Ahmad — Consultant Nephrologist, Lahore",

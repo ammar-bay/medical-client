@@ -1,68 +1,43 @@
 import { useT, type Lang } from "@/lib/strings";
 
 const ROWS: [string, string][] = [
-  ["mbbs", "1998"],
-  ["mrcp", "2006"],
-  ["hst", "2009"],
-  ["frcp", "2014"],
-  ["diab", "2010"],
-  ["tx", "2012"],
-  ["assoc", "2015"],
+  ["mbbs", "2004"],
+  ["mrcp", "2014"],
+  ["hst", "2019"],
+  ["tx", "2022"],
+  ["diab", "2025"],
+  ["assoc", "2025"],
+  ["frcp", "2026"],
 ];
 
 export default function Qualifications({ lang }: { lang: Lang }) {
   const t = useT(lang);
   return (
-    <section style={{ borderBottom: "1px solid var(--rule-2)" }}>
-      <div
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: "100px 28px",
-          display: "grid",
-          gridTemplateColumns: "300px 1fr",
-          gap: 60,
-        }}
-      >
+    <section className="border-b border-(--rule-2)">
+      <div className="max-w-300 mx-auto px-5 md:px-7 py-16 md:py-25 grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-10 lg:gap-15">
         <div>
           <div className="eyebrow">{t("qual_eyebrow")}</div>
-          <h2
-            className="serif"
-            style={{ fontSize: 38, marginTop: 12, letterSpacing: "-0.02em" }}
-          >
+          <h2 className="serif text-[34px] md:text-[38px] mt-3 tracking-[-0.02em]">
             {t("qual_title")}
           </h2>
         </div>
-        <div>
-          <div style={{ borderTop: "1px solid var(--rule-2)" }}>
-            {ROWS.map(([key, year]) => (
-              <div
-                key={key}
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "70px 1fr",
-                  gap: 24,
-                  padding: "20px 0",
-                  borderBottom: "1px solid var(--rule-2)",
-                }}
-              >
-                <div
-                  className="mono"
-                  style={{ color: "var(--teal)", fontSize: 13, paddingTop: 4 }}
-                >
-                  {year}
+        <div className="border-t border-(--rule-2)">
+          {ROWS.map(([key, year]) => (
+            <div
+              key={key}
+              className="grid grid-cols-[70px_1fr] gap-6 py-5 border-b border-(--rule-2)"
+            >
+              <div className="mono text-(--teal) text-[13px] pt-1">{year}</div>
+              <div>
+                <div className="serif text-[19px] leading-[1.3]">
+                  {t(`qual_${key}` as Parameters<ReturnType<typeof useT>>[0])}
                 </div>
-                <div>
-                  <div className="serif" style={{ fontSize: 19, lineHeight: 1.3 }}>
-                    {t(`qual_${key}` as Parameters<ReturnType<typeof useT>>[0])}
-                  </div>
-                  <div style={{ fontSize: 13, color: "var(--ink-3)", marginTop: 2 }}>
-                    {t(`qual_${key}_inst` as Parameters<ReturnType<typeof useT>>[0])}
-                  </div>
+                <div className="text-[13px] text-(--ink-3) mt-0.5">
+                  {t(`qual_${key}_inst` as Parameters<ReturnType<typeof useT>>[0])}
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

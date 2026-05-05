@@ -6,50 +6,27 @@ export default function Testimonials({ lang }: { lang: Lang }) {
   const items = [1, 2, 3] as const;
 
   return (
-    <section style={{ borderBottom: "1px solid var(--rule-2)" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "100px 28px" }}>
+    <section className="border-b border-(--rule-2)">
+      <div className="max-w-300 mx-auto px-5 md:px-7 py-16 md:py-25">
         <div className="eyebrow">{t("test_eyebrow")}</div>
-        <h2
-          className="serif"
-          style={{ fontSize: 42, marginTop: 12, letterSpacing: "-0.02em" }}
-        >
+        <h2 className="serif text-[34px] md:text-[42px] mt-3 tracking-[-0.02em]">
           {t("test_title")}
         </h2>
 
-        <div
-          style={{
-            marginTop: 48,
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 24,
-          }}
-        >
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           {items.map((i) => (
-            <figure
-              key={i}
-              className="card"
-              style={{ padding: 28, margin: 0, borderRadius: 4 }}
-            >
-              <div style={{ display: "flex", gap: 2, color: "var(--gold)", marginBottom: 14 }}>
+            <figure key={i} className="card p-7 m-0 rounded">
+              <div className="flex gap-0.5 text-(--gold) mb-3.5">
                 {[1, 2, 3, 4, 5].map((s) => <StarIcon key={s} size={14} />)}
               </div>
-              <blockquote
-                className="serif"
-                style={{ margin: 0, fontSize: 19, lineHeight: 1.4, color: "var(--ink)" }}
-              >
+              <blockquote className="serif m-0 text-[19px] leading-[1.4] text-(--ink)">
                 &ldquo;{t(`test_${i}` as Parameters<typeof t>[0])}&rdquo;
               </blockquote>
-              <figcaption
-                style={{
-                  marginTop: 22,
-                  paddingTop: 18,
-                  borderTop: "1px solid var(--rule-2)",
-                }}
-              >
-                <div style={{ fontSize: 14, fontWeight: 500 }}>
+              <figcaption className="mt-5.5 pt-4.5 border-t border-(--rule-2)">
+                <div className="text-sm font-medium">
                   {t(`test_${i}_name` as Parameters<typeof t>[0])}
                 </div>
-                <div style={{ fontSize: 12, color: "var(--ink-3)", marginTop: 2 }}>
+                <div className="text-xs text-(--ink-3) mt-0.5">
                   {t(`test_${i}_meta` as Parameters<typeof t>[0])}
                 </div>
               </figcaption>

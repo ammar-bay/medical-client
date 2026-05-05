@@ -26,6 +26,22 @@
   --shadow-sm: 0 1px 2px rgba(20,40,60,0.04), 0 1px 1px rgba(20,40,60,0.03);
   --shadow-md: 0 4px 14px rgba(20,40,60,0.06), 0 1px 3px rgba(20,40,60,0.04);
   --shadow-lg: 0 14px 40px rgba(20,40,60,0.10), 0 2px 6px rgba(20,40,60,0.04);
+
+  /* Computed color expressions for Tailwind arbitrary values */
+  --nav-bg: color-mix(in oklch, var(--bg) 80%, transparent);
+  --loc-gradient: linear-gradient(180deg, oklch(0.34 0.10 28) 0%, oklch(0.30 0.09 25) 100%);
+  --loc-card-bg: color-mix(in oklch, white 8%, transparent);
+  --loc-card-border: color-mix(in oklch, white 14%, transparent);
+  --loc-text: color-mix(in oklch, white 80%, transparent);
+  --loc-eyebrow: color-mix(in oklch, white 70%, transparent);
+  --loc-border-btn: color-mix(in oklch, white 20%, transparent);
+  --wa-bg: color-mix(in oklch, oklch(0.65 0.15 145) 25%, transparent);
+  --wa-text: oklch(0.88 0.12 145);
+  --wa-border: color-mix(in oklch, oklch(0.65 0.15 145) 40%, transparent);
+  --modal-overlay: color-mix(in oklch, oklch(0.18 0.02 240) 60%, transparent);
+  --green: oklch(0.7 0.16 150);
+  --confirm-check-bg: color-mix(in oklch, oklch(0.65 0.15 145) 18%, transparent);
+  --confirm-check-text: oklch(0.5 0.13 145);
 }
 
 * { box-sizing: border-box; }
@@ -146,3 +162,11 @@ h1, h2, h3 {
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
+
+/* Specialization card borders — vertical separators on desktop, horizontal on mobile */
+.spec-item { border-bottom: 1px solid var(--rule-2); }
+.spec-item:last-child { border-bottom: none; }
+@media (min-width: 1024px) {
+  .spec-item { border-bottom: none; border-inline-end: 1px solid var(--rule-2); }
+  .spec-item:last-child { border-inline-end: none; }
+}

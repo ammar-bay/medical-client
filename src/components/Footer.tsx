@@ -4,29 +4,10 @@ import { useT, type Lang } from "@/lib/strings";
 function FooterCol({ title, items }: { title: string; items: string[] }) {
   return (
     <div>
-      <div
-        style={{
-          fontSize: 12,
-          fontWeight: 500,
-          textTransform: "uppercase",
-          letterSpacing: "0.1em",
-          color: "var(--ink-3)",
-          marginBottom: 14,
-        }}
-      >
+      <div className="text-xs font-medium uppercase tracking-widest text-(--ink-3) mb-3.5">
         {title}
       </div>
-      <ul
-        style={{
-          listStyle: "none",
-          padding: 0,
-          margin: 0,
-          display: "grid",
-          gap: 8,
-          fontSize: 14,
-          color: "var(--ink-2)",
-        }}
-      >
+      <ul className="list-none p-0 m-0 grid gap-2 text-sm text-(--ink-2)">
         {items.map((x, i) => <li key={i}>{x}</li>)}
       </ul>
     </div>
@@ -36,17 +17,15 @@ function FooterCol({ title, items }: { title: string; items: string[] }) {
 export default function Footer({ lang }: { lang: Lang }) {
   const t = useT(lang);
   return (
-    <footer style={{ background: "var(--bg)", paddingBottom: 40 }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "60px 28px 0" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr 1fr", gap: 40 }}>
+    <footer className="bg-(--bg) pb-10">
+      <div className="max-w-300 mx-auto px-5 md:px-7 pt-15">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-10">
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, color: "var(--teal)" }}>
+            <div className="flex items-center gap-2.5 text-(--teal)">
               <LogoIcon size={26} />
-              <div className="serif" style={{ fontSize: 18, color: "var(--ink)" }}>
-                {t("hero_name")}
-              </div>
+              <div className="serif text-lg text-(--ink)">{t("hero_name")}</div>
             </div>
-            <div style={{ marginTop: 14, fontSize: 14, color: "var(--ink-3)", maxWidth: 280 }}>
+            <div className="mt-3.5 text-sm text-(--ink-3) max-w-70">
               {t("foot_tag")}
             </div>
           </div>
@@ -57,7 +36,11 @@ export default function Footer({ lang }: { lang: Lang }) {
           />
           <FooterCol
             title={t("foot_contact")}
-            items={["+92 300 0000000", "appointments@drirfan.pk", "WhatsApp 24/7"]}
+            items={[
+              "+92 321 4820890 (Doctors Hospital)",
+              "+92 345 1450025 (Farooq Hospital DHA)",
+              "WhatsApp available on both numbers",
+            ]}
           />
           <FooterCol
             title={t("foot_hours")}
@@ -68,19 +51,7 @@ export default function Footer({ lang }: { lang: Lang }) {
           />
         </div>
 
-        <div
-          style={{
-            marginTop: 48,
-            paddingTop: 20,
-            borderTop: "1px solid var(--rule-2)",
-            fontSize: 12,
-            color: "var(--ink-3)",
-            display: "flex",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: 12,
-          }}
-        >
+        <div className="mt-12 pt-5 border-t border-(--rule-2) text-xs text-(--ink-3) flex justify-between flex-wrap gap-3">
           <div>{t("foot_copy")}</div>
           <div>{t("foot_emergency")}</div>
         </div>

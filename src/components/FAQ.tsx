@@ -9,23 +9,11 @@ export default function FAQ({ lang }: { lang: Lang }) {
   const items = [1, 2, 3, 4, 5] as const;
 
   return (
-    <section id="faq" style={{ background: "var(--bg-soft)", borderBottom: "1px solid var(--rule-2)" }}>
-      <div
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: "100px 28px",
-          display: "grid",
-          gridTemplateColumns: "360px 1fr",
-          gap: 60,
-        }}
-      >
+    <section id="faq" className="bg-(--bg-soft) border-b border-(--rule-2)">
+      <div className="max-w-300 mx-auto px-5 md:px-7 py-16 md:py-25 grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-10 lg:gap-15">
         <div>
           <div className="eyebrow">{t("faq_eyebrow")}</div>
-          <h2
-            className="serif"
-            style={{ fontSize: 38, marginTop: 12, letterSpacing: "-0.02em" }}
-          >
+          <h2 className="serif text-[34px] md:text-[38px] mt-3 tracking-[-0.02em]">
             {t("faq_title")}
           </h2>
         </div>
@@ -36,42 +24,21 @@ export default function FAQ({ lang }: { lang: Lang }) {
             return (
               <div
                 key={i}
-                style={{
-                  borderTop: "1px solid var(--rule-2)",
-                  borderBottom: idx === items.length - 1 ? "1px solid var(--rule-2)" : "none",
-                }}
+                className={`border-t border-(--rule-2)${idx === items.length - 1 ? " border-b" : ""}`}
               >
                 <button
                   onClick={() => setOpen(isOpen ? -1 : idx)}
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    gap: 20,
-                    background: "transparent",
-                    border: "none",
-                    padding: "22px 0",
-                    textAlign: "start",
-                  }}
+                  className="w-full flex justify-between items-center gap-5 bg-transparent border-none py-5.5 text-start cursor-pointer"
                 >
-                  <span className="serif" style={{ fontSize: 20, color: "var(--ink)" }}>
+                  <span className="serif text-xl text-(--ink)">
                     {t(`faq_${i}_q` as Parameters<typeof t>[0])}
                   </span>
-                  <span style={{ color: "var(--teal)", flexShrink: 0 }}>
+                  <span className="text-(--teal) shrink-0">
                     {isOpen ? <MinusIcon size={18} /> : <PlusIcon size={18} />}
                   </span>
                 </button>
                 {isOpen && (
-                  <div
-                    style={{
-                      paddingBottom: 22,
-                      fontSize: 15,
-                      color: "var(--ink-2)",
-                      lineHeight: 1.6,
-                      maxWidth: 640,
-                    }}
-                  >
+                  <div className="pb-5.5 text-[15px] text-(--ink-2) leading-relaxed max-w-160">
                     {t(`faq_${i}_a` as Parameters<typeof t>[0])}
                   </div>
                 )}

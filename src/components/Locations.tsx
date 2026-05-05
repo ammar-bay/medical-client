@@ -1,7 +1,7 @@
 "use client";
-import { PinIcon, ClockIcon } from "./Icons";
+import { PinIcon, ClockIcon, PhoneIcon } from "./Icons";
 import { useT, type Lang } from "@/lib/strings";
-import type { HospitalId } from "@/lib/hospitals";
+import { HOSPITALS, type HospitalId } from "@/lib/hospitals";
 
 interface LocationsProps {
   lang: Lang;
@@ -18,106 +18,87 @@ export default function Locations({ lang, onBookHospital }: LocationsProps) {
   return (
     <section
       id="locations"
-      style={{
-        background: "linear-gradient(180deg, oklch(0.34 0.10 28) 0%, oklch(0.30 0.09 25) 100%)",
-        color: "white",
-        borderBottom: "1px solid var(--rule-2)",
-      }}
+      className="border-b border-(--rule-2) text-white"
+      style={{ background: "var(--loc-gradient)" }}
     >
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "100px 28px" }}>
-        <div>
-          <div className="eyebrow" style={{ color: "color-mix(in oklch, white 70%, transparent)" }}>
-            {t("loc_eyebrow")}
-          </div>
-          <h2
-            className="serif"
-            style={{ fontSize: 42, marginTop: 12, letterSpacing: "-0.02em", color: "white" }}
-          >
-            {t("loc_title")}
-          </h2>
-        </div>
+      <div className="max-w-300 mx-auto px-5 md:px-7 py-16 md:py-25">
+        <div className="eyebrow" style={{ color: "var(--loc-eyebrow)" }}>{t("loc_eyebrow")}</div>
+        <h2 className="serif text-[34px] md:text-[42px] mt-3 tracking-[-0.02em] text-white">
+          {t("loc_title")}
+        </h2>
 
-        <div
-          style={{
-            marginTop: 48,
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 24,
-          }}
-        >
-          {CARDS.map((h) => (
-            <div
-              key={h.id}
-              style={{
-                background: "color-mix(in oklch, white 8%, transparent)",
-                border: "1px solid color-mix(in oklch, white 14%, transparent)",
-                borderRadius: 4,
-                padding: 28,
-                display: "grid",
-                gridTemplateColumns: "1fr 140px",
-                gap: 24,
-              }}
-            >
-              <div>
-                <h3 className="serif" style={{ fontSize: 24, color: "white" }}>
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {CARDS.map((h) => {
+            const hospital = HOSPITALS.find((x) => x.id === h.id)!;
+            return (
+              <div
+                key={h.id}
+                className="rounded p-7"
+                style={{
+                  background: "var(--loc-card-bg)",
+                  border: "1px solid var(--loc-card-border)",
+                }}
+              >
+                <h3 className="serif text-2xl text-white mb-4">
                   {t(h.nameKey as Parameters<typeof t>[0])}
                 </h3>
-                <div
-                  style={{
-                    marginTop: 16,
-                    fontSize: 14,
-                    color: "color-mix(in oklch, white 80%, transparent)",
-                    lineHeight: 1.6,
-                    display: "grid",
-                    gap: 8,
-                  }}
-                >
-                  <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                    <span style={{ marginTop: 2 }}><PinIcon size={14} /></span>
+
+                <div className="text-sm leading-relaxed grid gap-2.5 mb-5" style={{ color: "var(--loc-text)" }}>
+                  <div className="flex gap-2.5 items-start">
+                    <span className="mt-0.5 shrink-0"><PinIcon size={14} /></span>
                     <span>{t(h.addrKey as Parameters<typeof t>[0])}</span>
                   </div>
-                  <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                    <span style={{ marginTop: 2 }}><ClockIcon size={14} /></span>
+                  <div className="flex gap-2.5 items-start">
+                    <span className="mt-0.5 shrink-0"><ClockIcon size={14} /></span>
                     <span>{t(h.hoursKey as Parameters<typeof t>[0])}</span>
                   </div>
+                  <div className="flex gap-2.5 items-center flex-wrap">
+                    <span className="shrink-0"><PhoneIcon size={14} /></span>
+                    <a
+                      href={`tel:${hospital.phone.replace(/\s/g, "")}`}
+                      className="mono text-[13px]"
+                      style={{ color: "inherit" }}
+                    >
+                      {hospital.phone}
+                    </a>
+                    {hospital.whatsapp && (
+                      <a
+                        href={`https://wa.me/${hospital.phone.replace(/[^0-9]/g, "")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs px-2 py-0.5 rounded-full"
+                        style={{
+                          background: "var(--wa-bg)",
+                          color: "var(--wa-text)",
+                          border: "1px solid var(--wa-border)",
+                        }}
+                      >
+                        WhatsApp
+                      </a>
+                    )}
+                  </div>
                 </div>
-                <div style={{ marginTop: 20, display: "flex", gap: 10 }}>
+
+                <div className="flex gap-2.5 flex-wrap">
                   <button
-                    className="btn btn-sm"
-                    style={{ background: "white", color: "var(--teal-deep)" }}
+                    className="btn btn-sm bg-white text-(--teal-deep)"
                     onClick={() => onBookHospital(h.id)}
                   >
                     {t("nav_book")}
                   </button>
-                  <button
-                    className="btn btn-sm"
-                    style={{
-                      background: "transparent",
-                      color: "white",
-                      border: "1px solid color-mix(in oklch, white 20%, transparent)",
-                    }}
+                  <a
+                    href={hospital.maps_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-sm text-white"
+                    style={{ background: "transparent", border: "1px solid var(--loc-border-btn)" }}
                   >
                     {t("loc_directions")}
-                  </button>
+                  </a>
                 </div>
               </div>
-
-              {/* Map placeholder */}
-              <div
-                style={{
-                  height: 140,
-                  borderRadius: 3,
-                  background: `
-                    radial-gradient(circle at 50% 60%, oklch(0.65 0.15 145) 0 6px, transparent 7px),
-                    repeating-linear-gradient(0deg, color-mix(in oklch, white 15%, transparent) 0 1px, transparent 1px 16px),
-                    repeating-linear-gradient(90deg, color-mix(in oklch, white 15%, transparent) 0 1px, transparent 1px 16px),
-                    color-mix(in oklch, white 6%, transparent)
-                  `,
-                  border: "1px solid color-mix(in oklch, white 14%, transparent)",
-                }}
-              />
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
