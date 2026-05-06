@@ -65,7 +65,7 @@ export default function Hero({ lang, onBook }: HeroProps) {
               boxShadow: "var(--shadow-md)",
             }}
           >
-            <div className="eyebrow mb-1.5">FRCP · Internationally trained</div>
+            <div className="eyebrow mb-1.5">FRCPI · Internationally trained</div>
             <div className="serif text-lg leading-[1.2]">{t("hero_credential_title")}</div>
             <div className="text-xs text-(--ink-3) mt-1">{t("hero_credential_sub")}</div>
           </div>
